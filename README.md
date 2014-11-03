@@ -124,6 +124,7 @@ Note: We are under the assumption that you have ROS set up and running on your s
 ##UTILITY##
 
 
-#ACKNOWLEDGEMENTS#
+#REFERENCES#
+Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
 
 #USEFUL LINKS#
