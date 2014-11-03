@@ -48,6 +48,43 @@ Check it installed properly with
 ```
 dpkg -l | grep usb_cam
 ```
+launch ROS with
+```
+roscore 
+```
+In a new terminal run the node with 
+```
+rosrun usb_cam usb_cam_node _video_device:=/dev/video#
+```
+# is the number you found out that is associated with your webcam.
+in a new terminal 
+```
+rosrun image_view image_view image:=usb_cam/image_raw
+```
+A window should pop up now displaying images from your webcam.
+To check what topics you are publishing 
+
+```
+rostopic list
+````
+which should give you 
+```
+/rosout
+/rosout_agg
+/usb_cam/camera_info
+/usb_cam/image_raw
+/usb_cam/image_raw/compressed
+/usb_cam/image_raw/compressed/parameter_descriptions
+/usb_cam/image_raw/compressed/parameter_updates
+/usb_cam/image_raw/compressedDepth
+/usb_cam/image_raw/compressedDepth/parameter_descriptions
+/usb_cam/image_raw/compressedDepth/parameter_updates
+/usb_cam/image_raw/theora
+/usb_cam/image_raw/theora/parameter_descriptions
+/usb_cam/image_raw/theora/parameter_updates
+```
+
+
 
 Note: We are under the assumption that you have ROS set up and running on your system. The ROS version we are using is indigo.
 
