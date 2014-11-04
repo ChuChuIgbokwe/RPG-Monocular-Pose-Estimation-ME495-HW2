@@ -4,15 +4,42 @@ RPG-Monocular-Pose-Estimation-ME495-HW2
 RPG Monocular Pose Estimation. ME495 HW2
 ##OBJECTIVES#
 * Use the ROS [camera calibration] (http://wiki.ros.org/camera_calibration) package to calibrate the webcam you are given
-* Follow the documentation for the package to try and get the package running. You will need to do things like
+* Follow the documentation for the package to try and get the package running
  - Build some sort of 3D holder for your LEDs and calculate the transforms between them
  - Build a circuit for powering the LEDs
  - Fine-tune parameters of the tracking algorithm
 * Build a ROS package to run the demo
 
 
-##PRELIMINARY STEPS#
-We decided to use the Microsoft LifeCam Studio wecam and we had issuses getting it to capture images
+##PRELIMINARY STEPS##
+
+Note: We are under the assumption that you have ROS set up and running on your system. The ROS version we are using is indigo.
+
+1. Read the following publication by the developers of this package:
+
+M. Faessler, E. Mueggler, K. Schwabe, D. Scaramuzza: **A Monocular Pose Estimation System based on Infrared LEDs.** IEEE International Conference on Robotics and Automation (ICRA), Hong Kong, 2014.
+
+2. [Watch this video to see the Monocular Pose Estimator in action!](http://www.youtube.com/watch?v=8Ui3MoOxcPQ)
+
+3. Obtain needed materials:
+
+You will need:
+*Note: the specific materials that we used are in parentheses below
+1. At minimum 5 IR LEDs
+2. Electronic prototyping materials
+3. An IR filter that has a frequency below the frequency of the LEDs that you chose (We used a Digital HD Filter
+4. A webcam
+
+##NEEDED PACKAGES##
+
+###RPG_MONOCULAR_POSE_ESTIMATOR###
+
+
+###USB_CAM OR UVC_CAM###
+
+##CONFIGURE CAMERA##
+
+We decided to use the Microsoft LifeCam Studio webcam and we had issuses getting it to capture images
 
 ```lsusb
 dmesg | tail
@@ -52,12 +79,13 @@ launch ROS with
 ```
 roscore 
 ```
-In a new terminal run the node with 
+In a new terminal run the node with: 
 ```
 rosrun usb_cam usb_cam_node _video_device:=/dev/video#
 ```
-# is the number you found out that is associated with your webcam.
-in a new terminal 
+# is the number you found out that is associated with your webcam
+
+Then, in a new terminal type: 
 ```
 rosrun image_view image_view image:=usb_cam/image_raw
 ```
@@ -83,19 +111,6 @@ which should give you
 /usb_cam/image_raw/theora/parameter_descriptions
 /usb_cam/image_raw/theora/parameter_updates
 ```
-
-
-
-#PRELIMINARY STEPS#
-
-##NEEDED PACKAGES##
-
-###RPG_MONOCULAR_POSE_ESTIMATOR###
-
-
-###USB_CAM OR UVC_CAM###
-
-##CONFIGURE CAMERA##
 
 ##NEEDED DATA##
 
