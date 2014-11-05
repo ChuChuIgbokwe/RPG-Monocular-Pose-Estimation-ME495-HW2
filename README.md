@@ -24,7 +24,7 @@ M. Faessler, E. Mueggler, K. Schwabe, D. Scaramuzza: **A Monocular Pose Estimati
 3. Obtain needed materials:
    You will need:
     *Note: the specific materials that we used are in parentheses below
-    1. At minimum 5 IR LEDs
+    1. At minimum, 4 IR LEDs
 
     2. Electronic prototyping materials
 
@@ -186,7 +186,12 @@ We can also look at rqt_image_view, which would bring up a GUI from which you ca
 
 ##HARDWARE##
 
-###BUILD HARDWARE###
+In order to test out the system, we wanted to build hardware that was easy to develop and quick, so more time could be spent on getting the package to function. Thus, we used a breadboard and placed the LEDs on different levels. From the paper, some important things to note when setting up your rig are:
+  1. Do _not_ put the LEDs all in the same plane
+  2. Do _not_ put the LEDs in a way that is symmetric about your object
+  3. The LEDs should be visible from various viewing angles (this is where the breadboard idea is not the most ideal solution)
+  4. As mentioned earlier, should have a minimum of 4 LEDs
+  5. The LEDs should be bright in the image relative to the background so they can be easily extracted from the rest of the image- this will lead to a more accurate estimate of the position
 
 ###SETTING UP MARKER_POSITIONS FILE###
 
