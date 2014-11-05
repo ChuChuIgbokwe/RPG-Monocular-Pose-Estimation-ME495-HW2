@@ -57,11 +57,17 @@ catkin_make
 In order to obtain real time position tracking, you will need to allow for a way for the package to interface with the webcam you are using. To do this, you can install either the [usb_cam](http://wiki.ros.org/usb_cam) or [uvc_camera]( http://wiki.ros.org/uvc_camera) packages. This can be done by typing in the following commands:
 
 ```
-sudo apt-get install usb-cam
+sudo apt-get install ros-indigo-usb-cam
 
 OR
 
-sudo apt-get install uvc-camera
+sudo apt-get install ros-indigo-uvc-camera
+```
+Check whether they installed properly with:
+```
+dpkg -l | grep usb_cam
+
+dpkg -l | grep uvc_camera
 ```
 
 ##Configure Camera##
@@ -92,19 +98,14 @@ cd /dev
 ls
 ```
 
-search for video and take note of the number after it. It will most likely be 0 or 1. Plug in your webcam and run 
+If you search for "video" in that list, take note of the number after it; it will most likely be 0 or 1. Plug in your webcam and then type:
 ```
 ls
 ```
 
-there will be another video term with a number after it. That is your webcam’s ID.
-install the [usb_cam ROS package] (http://wiki.ros.org/usb_cam) with
-```
-sudo apt-get install ros-indigo-usb-cam
-```
-Check it installed properly with
-```
-dpkg -l | grep usb_cam
+There will be another video term with a number after it- that is your webcam’s ID.
+Install the [usb_cam ROS package] (http://wiki.ros.org/usb_cam) with
+
 ```
 launch ROS with
 ```
