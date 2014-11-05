@@ -273,7 +273,19 @@ We were successfully able to get the TurtleSim to move by using input from the R
 
 ##Obstacled Encountered##
 
-Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and then found out that the bag was subscribed to /camera/camera_info and /camera/ 
+Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and used to the rosbag info command to find out more details about the file.
+```
+  rosbag info demo_test.bag
+```
+Afterward, we found out that the bag was subscribed to /camera/camera_info and /camera/image_raw. This is important to note because we now knew what data the package was expecting receive from the rosbag file (and subsequently the correct topics we needed to subscribe to while recording our own rosbag file). Our inital thought was to rosrun the usb_cam package and node but we realized that, had we recorded it from there, the names of the topics of the rosbag would have been /usb_cam/camera_info and /usb_cam/image_raw, which is not what the monocular_pose_estimator node is expecting. Thus, in the interest of not having to modify the launch file to remap the name of the node from /camera to /usb_cam, we ended up simply starting up our launch file that works with real-time video and recording with that.
+
+ In a new terminal, type:
+```
+  rosbag record /camera/image_raw /camera/camera_info
+  
+  ctrl+c to stop the recording
+```
+However, after this, we noticed that we were finally getting some detections on our image, albeit in correct.
 
 ##Utility##
 
