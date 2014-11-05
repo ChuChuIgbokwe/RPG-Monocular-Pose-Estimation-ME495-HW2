@@ -271,7 +271,7 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- itw as incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes.
 
-##Obstacled Encountered##
+##Obstacles Encountered##
 
 Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and used to the rosbag info command to find out more details about the file.
 ```
