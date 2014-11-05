@@ -184,7 +184,7 @@ We can also look at rqt_image_view, which would bring up a GUI from which you ca
   BLAHHHH
 ````
 
-##HARDWARE##
+##Hardware##
 
 In order to test out the system, we wanted to build hardware that was easy to develop and quick, so more time could be spent on getting the package to function. Thus, we used a breadboard and placed the LEDs on different levels. From the paper, some important things to note when setting up your rig are:
   1. Do _not_ put the LEDs all in the same plane
@@ -193,16 +193,40 @@ In order to test out the system, we wanted to build hardware that was easy to de
   4. As mentioned earlier, should have a minimum of 4 LEDs
   5. The LEDs should be bright in the image relative to the background so they can be easily extracted from the rest of the image- this will lead to a more accurate estimate of the position
 
-###SETTING UP MARKER_POSITIONS FILE###
+##Software##
+###Setting up Marker Positions YAML File###
 
 Figuring out how to correctly input the XYZ values of each LED into the marker_positions file was the difficult part.
 
 -Through some experimentation and reverse engineering of the image in the publication, we found that, though they had only 4 LED positions in the marker_positions file, there were actually 5 LEDs on the object.
--From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured. This was the lowest LED on the object's frame of reference.
--Another important detail to note is that all of the LED position values should be given in meters
+-From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured; this was the lowest (in the z-direction) LED on the object's frame of reference.
+-Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED
 
 ##EDIT LAUNCH FILE##
 
+We ran into issues running the actual software (details to be discussed in the "Obstacles Encountered" section). However, because of the issues we ran into, we decided to make two different Launch files. The general launch file on the Github for this project is below.
+
+```
+ <launch> 
+
+    <!-- Name of the YAML file containing the marker positions -->
+    <arg name="YAML_file_name" default="marker_positions"/>
+
+    <!-- File containing the the marker positions in the trackable's frame of reference -->
+    <arg name="marker_positions_file" default="$(find monocular_pose_estimator)/marker_positions/$(arg YAML_file_name).yaml"/> 
+
+    <node name="monocular_pose_estimator" pkg="monocular_pose_estimator" type="monocular_pose_estimator" respawn="false" output="screen"> 
+        <rosparam command="load" file="$(arg marker_positions_file)"/>
+        <param name= "threshold_value" value = "140" />
+        <param name= "gaussian_sigma" value = "0.6" />
+        <param name= "min_blob_area" value = "10" />
+        <param name= "max_blob_area" value = "200" />
+        <param name= "max_width_height_distortion" value = "0.5" />
+        <param name= "max_circular_distortion" value = "0.5" />
+    </node>
+</launch> 
+````
+The first option was to have a launch file that did what was intended by the project- to make it work with a real time video stream. In order to do this, we had to add in a block of code that would launch the usb_cam_node. This block of code is seen below- be sure to tune the parameters (particularly size of the image and image type)
 
 
 ###REMAPPING NODES###
