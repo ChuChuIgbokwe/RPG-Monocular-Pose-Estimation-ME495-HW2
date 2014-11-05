@@ -77,7 +77,6 @@ Because we are using our camera for precision position detection, we need to ens
 In our case, it was a bit difficult to connect to our camera at times. Also, it is important to note tha the camera you are using may change names when you plug/unplug it or restart your computer. The following steps will help you find out what the name of your device is and testing it from the command lines.
 
 In order to find out what devices are plugged into your computer, type in:
-
 ```
 lsusb
 dmesg | tailh
@@ -230,14 +229,20 @@ The first option was to have a launch file that did what was intended by the pro
 
 ```
   ADD ADDITION FOR USB CAM HERE
-````
+```
 
 The next option is to be able to play a rosbag file that you prerecorded. This a more simple change since the demo.launch file is already written to play a Rosbag file on loop, so you only have to change the name of the Rosbag file that is called. The tricky part was getting the Rosbag file to be an appropriate one to be ran with this package, but details about this will be discussed in the "Obstacles Encountered" section.
 
 #RUNNING THE PACKAGE#
 
+After deciding which method you would like to run it (real-time video or pre-recorded video in rosbag file), you need to launch the appropriate launch file for the package.
+
 ##RQT_RECONFIGURE##
 
+We have the ability to fine-tune the paramters by using rqt_reconfigure with the command below.
+```
+  rosrun rqt_reconfigure rqt_reconfigure
+```
 ###Dynamic Reconfigure###
 
 When reconfiguring monocular_pose_estimator:
@@ -254,13 +259,15 @@ When reconfiguring monocular_pose_estimator:
 -Valid correspondance: not a noticeable difference, so go with default of 0.7
 -Roi border thickness: 10 on scale of 0-200
 
-#CONCLUSIONS#
+#Extension#
 
 ##RELIABILITY AND SENSITIVITY TO PARAMETERS##
 
 ##OBSTACLES ENCOUNTERED##
 
 ##UTILITY##
+
+#CONCLUSIONS#
 
 
 #REFERENCES#
