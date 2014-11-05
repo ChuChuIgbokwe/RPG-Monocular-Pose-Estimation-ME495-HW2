@@ -165,7 +165,11 @@ By launching the demo launch file, we can get a lot of information just through 
 
 We can find a little more out by running a few different commands.
 
-First, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
+First, we can run rqt_graph in order to see an overall flow chart of the nodes and topics that are running upon launch. The screenshot below is what we obtained and we made sure that this basic structure at least was present during our debugging process.
+
+![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/rqt_graph.png)
+
+Then, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
 ```
   ADD OUTPUT OF ROSTOPIC LIST
 ````
@@ -173,7 +177,7 @@ Next, we find out which nodes are active using the rosnode list command in a new
 ```
   ADD OUTPUT OF ROSNODE LIST
 ````
-We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below, as well as a screenshot of the GUI:
+We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below:
 
 ```
   rosrun rqt_image_view rqt_image_view
@@ -279,7 +283,7 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 -Valid correspondance: not a noticeable difference, so go with default of 0.7
 
--Roi border thickness: 10 on scale of 0-200
+-ROI border thickness: 10 on scale of 0-200
 
 ##RELIABILITY AND SENSITIVITY TO PARAMETERS##
 
@@ -303,7 +307,15 @@ Afterward, we found out that the bag was subscribed to /camera/camera_info and /
 ```
 We immediately noticed that our images kept freezing, and that this was not allowing us to see the detection. Our short-term fix was to look at the feed using rqt_image_view, but long term, we learned that there was actually a bug in the old version of image_view; this bug had been fixed recently, but was not yet on the ROS wiki, so you have to obtain the fix from Github.
 
-However, after this, we noticed that we were finally getting some detections on our image, albeit incorrectly detected. Because of this, we adjusted the parameters dynamically using rqt_reconfigure and the detection did improve. We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was color vs. monochrome may actually be impacting that rate. We were not able to test this in the allotted time, but are continuing to work on this as a future problem. In the meantime, we are satisfied with our slower image rates.
+However, after this, we noticed that we were finally getting some detections on our image, albeit incorrectly detected. Because of this, we adjusted the parameters dynamically using rqt_reconfigure and the detection did improve (screenshot below). 
+
+![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/successful_led_location_bag.png)
+
+We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was color vs. monochrome may actually be impacting that rate. We were not able to test this in the allotted time, but are continuing to work on this as a future problem. In the meantime, we are satisfied with our slower image rates.
+
+![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/iamge_raw%20vs%20Image_with_detections.png)
+
+*This photo is a screenshot of the rate at which our /monocular_pose_estimator/image_with_detections node was publishing
 
 ##Utility##
 
