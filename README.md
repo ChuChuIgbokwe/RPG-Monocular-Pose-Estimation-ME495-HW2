@@ -72,7 +72,8 @@ In our case, it was a bit difficult to connect to our camera at times. Also, it 
 
 In order to find out what devices are plugged into your computer, type in:
 
-```lsusb
+```
+lsusb
 dmesg | tailh
 ```
 
