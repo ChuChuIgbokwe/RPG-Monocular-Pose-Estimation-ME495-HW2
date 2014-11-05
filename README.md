@@ -104,7 +104,7 @@ ls
 There will be another video term with a number after it- that is your webcam’s ID.
 
 ##Test Camera and USB_CAM Package##
-```
+
 Launch ROS by typing the following into the commandline:
 ```
 roscore 
@@ -142,10 +142,22 @@ The result should be:
 ```
 ##Testing the Software##
 
-###DOWNLOAD TEST BAG FILE###
+Within the RPG Monocular Pose Estimator package, there is a demo launch file. This launch file has been developed to open and play a video that was pre-recorded as a bagfile, rather than having a live video feed. Follow the steps below to test your package with the demo file! *Note: the steps on testing the software are taken directly from the [RPG Monocular Pose Estimator Github page](https://github.com/uzh-rpg/rpg_monocular_pose_estimator)
 
-###CREATING DIRECTORY###
 
+###Create Directory to Save Rosbag File###
+
+```
+  roscd monocular_pose_estimator
+  mkdir bags
+  cd bags
+````
+###Download test rosbag file###
+```
+  wget http://rpg.ifi.uzh.ch/data/monocular-pose-estimator-data.tar.gz
+  tar -zxvf monocular-pose-estimator-data.tar.gz
+  rm monocular-pose-estimator-data.tar.gz
+````
 ##HARDWARE##
 
 ###BUILD HARDWARE###
