@@ -1,0 +1,50 @@
+<launch> 
+
+	<!-- Name of the YAML file containing the marker positions -->
+	<arg name="YAML_file_name" default="unreliable_marker_positions"/>
+
+	<!-- File containing the the marker positions in the trackable's frame of reference -->
+	<arg name="marker_positions_file" default="$(find monocular_pose_estimator)/marker_positions/$(arg YAML_file_name).yaml"/> 
+
+	<!--node pkg="uvc_cam" type="usb_camera_node" name="blah" args="_video_device:=/dev/video1" output="screen"-->
+
+	<node name="camera" pkg="usb_cam" type="usb_cam_node" output="screen" >
+	    <param name="video_device" value="/dev/video0" />
+        <param name="image_width" value="320" />
+    	<param name="image_height" value="240" />
+	    <param name="pixel_format" value="yuyv" />
+	    <param name="camera_frame_id" value="usb_cam" />
+	    <param name="io_method" value="mmap"/>
+		<!-- <remap from="/blah" to="/camera" />  -->
+	</node>
+	<!-- <node pkg="image_view" type="image_view" name="testing" args="image:=/camera/image_raw" output="screen"/> -->
+	
+
+	<group ns="monocular_pose_estimator" >
+		<node name="monocular_pose_estimator" pkg="monocular_pose_estimator" type="monocular_pose_estimator" respawn="false"> 
+			<rosparam command="load" file="$(arg marker_positions_file)"/>
+			<param name= "threshold_value" value = "140" />
+			<param name= "gaussian_sigma" value = "0.6" />
+			<param name= "min_blob_area" value = "10" />
+			<param name= "max_blob_area" value = "200" />
+			<param name= "max_width_height_distortion" value = "0.5" />
+			<param name= "max_circular_distortion" value = "0.5" />
+			<param name= "back_projection_pixel_tolerance" value = "5" />
+			<param name= "nearest_neighbour_pixel_tolerance" value = "7" />
+			<param name= "certainty_threshold" value = "0.75" />
+			<param name= "valid_correspondence_threshold" value = "0.7" />
+		</node>
+	
+		<node name="view_visualisation_image" pkg="image_view" type="image_view" args="image:=/monocular_pose_estimator/image_with_detections" output="screen" />
+	</group>
+	<node name="posetoturtle" pkg="miniproject_me495" type ="posetoturtle" />
+	<node name ="turtlesim" pkg="turtlesim" type="turtlesim_node"/>
+	<!-- <node name="$(anon dynparam)" pkg = "dynamic_reconfigure" type="dynparam" args="set_from_parameters camera_node">
+		<param name="ExposureTimeAbs" type="double" value="4000.0"/>
+		<param name="Gain" type="double" value="100"/>
+	</node> -->
+
+	<!-- rosbag play -->
+	<!--<node pkg="rosbag" type="play" name="player" output="screen" args="-d 1 -l $(find monocular_pose_estimator)/bags/test_data.bag"/>-->
+	
+</launch>
