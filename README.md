@@ -165,7 +165,11 @@ By launching the demo launch file, we can get a lot of information just through 
 
 We can find a little more out by running a few different commands.
 
-First, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
+First, we can run rqt_graph in order to see an overall flow chart of the nodes and topics that are running upon launch. The screenshot below is what we obtained and we made sure that this basic structure at least was present during our debugging process.
+
+![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/rqt_graph.png)
+
+Then, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
 ```
   ADD OUTPUT OF ROSTOPIC LIST
 ````
@@ -173,7 +177,7 @@ Next, we find out which nodes are active using the rosnode list command in a new
 ```
   ADD OUTPUT OF ROSNODE LIST
 ````
-We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below, as well as a screenshot of the GUI:
+We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below:
 
 ```
   rosrun rqt_image_view rqt_image_view
@@ -194,16 +198,16 @@ Figuring out how to correctly input the XYZ values of each LED into the marker_p
 
 -Through some experimentation and reverse engineering of the image in the publication, we found that, though they had only 4 LED positions in the marker_positions file, there were actually 5 LEDs on the object.
 -From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured; this was the lowest (in the z-direction) LED on the object's frame of reference.
--Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED
+-Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED.
 
 The position values for our LEDs can be seen in the table below:
 
 | LED Number    |      x        |     y       |      z      |
 | ------------- |:-------------:|:-----------:|:-----------:|
-|       1       |     0.053     |    0.08     |    0.014    |
-|       2       |     0.082     |    0.046    |    0.014    |
-|       3       |     0.098     |    0.022    |    0.014    |
-|       4       |     0.147     |    0.048    |    0.014    |
+|       1       |     0.044     |    0.034    |    0.005    |
+|       2       |     0.022     |    0.071    |    0.002    |
+|       3       |     0.000     |    0.094    |    0.026    |
+|       4       |     0.029     |    0.112    |    0.005    |
 
 ###Edit Launch File###
 
@@ -279,13 +283,13 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 -Valid correspondance: not a noticeable difference, so go with default of 0.7
 
--Roi border thickness: 10 on scale of 0-200
+-ROI border thickness: 10 on scale of 0-200
 
 ##RELIABILITY AND SENSITIVITY TO PARAMETERS##
 
 ##Extension##
 
-We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled)
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled).
 
 ##Obstacles Encountered##
 
@@ -303,7 +307,15 @@ Afterward, we found out that the bag was subscribed to /camera/camera_info and /
 ```
 We immediately noticed that our images kept freezing, and that this was not allowing us to see the detection. Our short-term fix was to look at the feed using rqt_image_view, but long term, we learned that there was actually a bug in the old version of image_view; this bug had been fixed recently, but was not yet on the ROS wiki, so you have to obtain the fix from Github.
 
-However, after this, we noticed that we were finally getting some detections on our image, albeit incorrectly detected. Because of this, we adjusted the parameters dynamically using rqt_reconfigure and the detection did improve. We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was color vs. monochrome may actually be impacting that rate. We were not able to test this in the allotted time, but are continuing to work on this as a future problem. In the meantime, we are satisfied with our slower image rates.
+However, after this, we noticed that we were finally getting some detections on our image, albeit incorrectly detected. Because of this, we adjusted the parameters dynamically using rqt_reconfigure and the detection did improve (screenshot below). 
+
+![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/successful_led_location_bag.png)
+
+We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was RGB color vs. monochrome may actually be impacting that rate. After looking into it further, we noticed that the package is indeed optimized for monochrome/grayscale images. We were not able to test this in the alloted time, but are continuing to work on this as a future problem. In the meantime, we will be getting slower processing rates.
+
+![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/iamge_raw%20vs%20Image_with_detections.png)
+
+*This photo is a screenshot of the rate at which our /monocular_pose_estimator/image_with_detections node was publishing
 
 ##Utility##
 
