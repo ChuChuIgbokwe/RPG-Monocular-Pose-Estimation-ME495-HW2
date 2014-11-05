@@ -165,7 +165,7 @@ By launching the demo launch file, we can get a lot of information just through 
 
 We can find a little more out by running a few different commands.
 
-First, we can run rqt_graph in order to see an overall flow chart of the nodes and topics that are running upon launch. The screenshot below is what we obtained and we made sure that this basic structure at least was present during our debugging process.
+First, we can run rqt_graph in order to see an overall flow chart of the nodes and topics that are running upon launch. The screenshot below is what we obtained and we made sure that this basic structure at least was present during our debugging process. Below is a screen shot of our rqt_graph for the extension with TurtleSim (described in more detail in "Extension")
 
 ![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/rqt_graph.png)
 
