@@ -24,16 +24,15 @@ M. Faessler, E. Mueggler, K. Schwabe, D. Scaramuzza: **A Monocular Pose Estimati
 2. [Watch this video to see the Monocular Pose Estimator in action!](http://www.youtube.com/watch?v=8Ui3MoOxcPQ)
 
 3. Obtain needed materials:
+   You will need:
+    *Note: the specific materials that we used are in parentheses below
+    1. At minimum 5 IR LEDs
 
-You will need:
-*Note: the specific materials that we used are in parentheses below
-1. At minimum 5 IR LEDs
+    2. Electronic prototyping materials
 
-2. Electronic prototyping materials
+    3. An IR filter that has a frequency below the frequency of the LEDs that you chose ([IR 760 HD IR FILTER](http://www.amazon.com/NEEWER%C2%AE-760nm-Infrared-Infra-Filter/dp/B003TY10AS/ref=sr_1_1?s=electronics&ie=UTF8&qid=1415146287&sr=1-1&keywords=neewer+10000314)
 
-3. An IR filter that has a frequency below the frequency of the LEDs that you chose ([IR 760 HD IR FILTER](http://www.amazon.com/NEEWER%C2%AE-760nm-Infrared-Infra-Filter/dp/B003TY10AS/ref=sr_1_1?s=electronics&ie=UTF8&qid=1415146287&sr=1-1&keywords=neewer+10000314)
-
-4. A webcam ([Microsoft Lifecam Studio](http://www.microsoft.com/hardware/en-us/p/lifecam-studio/Q2F-00013)) 
+    4. A webcam ([Microsoft Lifecam Studio](http://www.microsoft.com/hardware/en-us/p/lifecam-studio/Q2F-00013)) 
 
 ##Package Installation##
 ###Dependencies###
