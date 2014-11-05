@@ -198,7 +198,7 @@ Figuring out how to correctly input the XYZ values of each LED into the marker_p
 
 -Through some experimentation and reverse engineering of the image in the publication, we found that, though they had only 4 LED positions in the marker_positions file, there were actually 5 LEDs on the object.
 -From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured; this was the lowest (in the z-direction) LED on the object's frame of reference.
--Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED
+-Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED.
 
 The position values for our LEDs can be seen in the table below:
 
@@ -289,7 +289,7 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 ##Extension##
 
-We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled)
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled).
 
 ##Obstacles Encountered##
 
