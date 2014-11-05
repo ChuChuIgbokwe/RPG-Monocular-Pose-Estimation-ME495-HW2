@@ -1,7 +1,5 @@
 RPG-Monocular-Pose-Estimation-ME495-HW2
 =======================================
-
-RPG Monocular Pose Estimation. ME495 HW2
 Group: Chukwunyere Igbokwe and Sabeen Admani
 
 ##OBJECTIVES#
@@ -145,9 +143,7 @@ Within the RPG Monocular Pose Estimator package, there is a demo launch file. Th
 
 *Note: the steps on testing the software are taken directly from the [RPG Monocular Pose Estimator Github page](https://github.com/uzh-rpg/rpg_monocular_pose_estimator)
 
-
 ###Create Directory to Save Rosbag File###
-
 ```
   roscd monocular_pose_estimator
   mkdir bags
@@ -245,30 +241,45 @@ We have the ability to fine-tune the paramters by using rqt_reconfigure with the
 ```
 ###Dynamic Reconfigure###
 
-When reconfiguring monocular_pose_estimator:
+When reconfiguring monocular_pose_estimator, we were able to confirm the limits and ranges that we saw on the Github page for the package- for the most part, the values were identical or very close.
 
 -Threshold: Needs to be within the range of 80-180 (From paper and experimentation)
+
 -Gaussian sigma: We want the range within which it will not false-detect LEDs where they are not. This value needs to be at or below 1.7
+
 -Minimum blob area: 39 seems to be the upper limit (on a scale to 0-100)
+
 -Maximum blob area: 55 is lower limit (on a scale of 0-1000)
+
 -Max width height distortion: 0.5 is lower limit (on scale of 0-1.0)
+
 -Max circular distortion: 0.5 is lower limit (on scale of 0-1.0)
+
 -Back projection pixel tolerance: 5.0 is lower limit (on scale of 0-10)
+
 -Nearest neighbour pixel tolerance: 7.0, but other values seem to work- not noticeable difference to us (scale of 0-10)
+
 -Certainty threshold: 0.5 is lower limit (on scale of 0-1)
+
 -Valid correspondance: not a noticeable difference, so go with default of 0.7
+
 -Roi border thickness: 10 on scale of 0-200
 
 #Extension#
 
-##RELIABILITY AND SENSITIVITY TO PARAMETERS##
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- itw as incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes.
 
-##OBSTACLES ENCOUNTERED##
+#RELIABILITY AND SENSITIVITY TO PARAMETERS#
 
-##UTILITY##
+#OBSTACLES ENCOUNTERED#
+
+#UTILITY#
 
 #CONCLUSIONS#
 
+#Next Steps#
+
+We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software). For example, we want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
 
 #REFERENCES#
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
