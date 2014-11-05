@@ -204,10 +204,10 @@ The position values for our LEDs can be seen in the table below:
 
 | LED Number    |      x        |     y       |      z      |
 | ------------- |:-------------:|:-----------:|:-----------:|
-|       1       |     0.053     |    0.08     |    0.014    |
-|       2       |     0.082     |    0.046    |    0.014    |
-|       3       |     0.098     |    0.022    |    0.014    |
-|       4       |     0.147     |    0.048    |    0.014    |
+|       1       |     0.044     |    0.034    |    0.005    |
+|       2       |     0.022     |    0.071    |    0.002    |
+|       3       |     0.000     |    0.094    |    0.026    |
+|       4       |     0.029     |    0.112    |    0.005    |
 
 ###Edit Launch File###
 
@@ -311,7 +311,7 @@ However, after this, we noticed that we were finally getting some detections on 
 
 ![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/successful_led_location_bag.png)
 
-We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was color vs. monochrome may actually be impacting that rate. We were not able to test this in the allotted time, but are continuing to work on this as a future problem. In the meantime, we are satisfied with our slower image rates.
+We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was RGB color vs. monochrome may actually be impacting that rate. After looking into it further, we noticed that the package is indeed optimized for monochrome/grayscale images. We were not able to test this in the alloted time, but are continuing to work on this as a future problem. In the meantime, we will be getting slower processing rates.
 
 ![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/iamge_raw%20vs%20Image_with_detections.png)
 
