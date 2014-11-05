@@ -1,10 +1,10 @@
 <launch> 
 
 	<!-- Name of the YAML file containing the marker positions -->
-	<arg name="YAML_file_name" default="unreliable_marker_positions"/>
+	<arg name="YAML_file_name" default="calculated_marker_positions"/>
 
 	<!-- File containing the the marker positions in the trackable's frame of reference -->
-	<arg name="marker_positions_file" default="$(find monocular_pose_estimator)/marker_positions/$(arg YAML_file_name).yaml"/> 
+	<arg name="marker_positions_file" default="$(find miniproject_me495)/marker_positions/$(arg YAML_file_name).yaml"/> 
 
 	<!--node pkg="uvc_cam" type="usb_camera_node" name="blah" args="_video_device:=/dev/video1" output="screen"-->
 

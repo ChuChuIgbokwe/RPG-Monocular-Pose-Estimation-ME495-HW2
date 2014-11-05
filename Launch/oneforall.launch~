@@ -37,7 +37,7 @@
 	
 		<node name="view_visualisation_image" pkg="image_view" type="image_view" args="image:=/monocular_pose_estimator/image_with_detections" output="screen" />
 	</group>
-	<node name="posetoturtle" pkg="miniproject_me495" type ="extension" />
+	<node name="posetoturtle" pkg="miniproject_me495" type ="extension.py" />
 	<node name ="turtlesim" pkg="turtlesim" type="turtlesim_node"/>
 	<!-- <node name="$(anon dynparam)" pkg = "dynamic_reconfigure" type="dynparam" args="set_from_parameters camera_node">
 		<param name="ExposureTimeAbs" type="double" value="4000.0"/>
