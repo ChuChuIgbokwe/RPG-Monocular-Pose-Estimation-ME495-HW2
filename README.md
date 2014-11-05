@@ -297,7 +297,7 @@ This package can be _extremely_ useful if the smaller run issues are hammered ou
 
 ###Next Steps###
 
-We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software). For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
+We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software) affect the image with detections output. For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
 
 ##REFERENCES##
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
