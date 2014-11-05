@@ -1,7 +1,7 @@
 RPG-Monocular-Pose-Estimation-ME495-HW2
 =======================================
+Group: Chukwunyere Igbokwe and Sabeen Admani
 
-RPG Monocular Pose Estimation. ME495 HW2
 ##OBJECTIVES#
 * Use the ROS [camera calibration] (http://wiki.ros.org/camera_calibration) package to calibrate the webcam you are given
 * Follow the documentation for the package to try and get the package running
@@ -10,9 +10,7 @@ RPG Monocular Pose Estimation. ME495 HW2
  - Fine-tune parameters of the tracking algorithm
 * Build a ROS package to run the demo
 
-
 ##PRELIMINARY STEPS##
-
 Note: We are under the assumption that you have ROS set up and running on your system. The ROS version we are using is indigo.
 
 1. Read the following publication by the developers of this package:
@@ -22,80 +20,108 @@ M. Faessler, E. Mueggler, K. Schwabe, D. Scaramuzza: **A Monocular Pose Estimati
 2. [Watch this video to see the Monocular Pose Estimator in action!](http://www.youtube.com/watch?v=8Ui3MoOxcPQ)
 
 3. Obtain needed materials:
+   You will need:
+    *Note: the specific materials that we used are in parentheses below
+    1. At minimum, 4 IR LEDs
 
-You will need:
-*Note: the specific materials that we used are in parentheses below
-1. At minimum 5 IR LEDs
-2. Electronic prototyping materials
-3. An IR filter that has a frequency below the frequency of the LEDs that you chose (We used a Digital HD Filter
-4. A webcam
+    2. Electronic prototyping materials
 
-##NEEDED PACKAGES##
+    3. An IR filter that has a frequency below the frequency of the LEDs that you chose ([IR 760 HD IR FILTER](http://www.amazon.com/NEEWER%C2%AE-760nm-Infrared-Infra-Filter/dp/B003TY10AS/ref=sr_1_1?s=electronics&ie=UTF8&qid=1415146287&sr=1-1&keywords=neewer+10000314)
 
-###RPG_MONOCULAR_POSE_ESTIMATOR###
+    4. A webcam ([Microsoft Lifecam Studio](http://www.microsoft.com/hardware/en-us/p/lifecam-studio/Q2F-00013)) 
 
+##Package Installation##
+###Dependencies###
 
-###USB_CAM OR UVC_CAM###
+1. Robot Operating System [(ROS)](http://wiki.ros.org/ROS/Installation): 
+ 
+ROS Indigo is the version of ROS that we are using. You can follow the instructions to instal ROS with the following link, and then set up a Catkin Workspace using these [instructions](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)
 
-##CONFIGURE CAMERA##
+2. [OpenCV](http://opencv.org/) and [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) are necessary for the package to run, so you need to run those as well
+   -OpenCV is used by the package for image processing on the incoming image data stream
+   -Eigen is used for linear algebra calculations for the IR LED locating algorithm
 
-We decided to use the Microsoft LifeCam Studio webcam and we had issuses getting it to capture images
+###RPG Monocular Pose Estimator Package Installation###
 
-```lsusb
-dmesg | tail
+You can clone the package using the commands below:
+```
+cd catkin_workspace/src
+git clone https://github.com/uzh-rpg/rpg_monocular_pose_estimator.git
+cd ../
+catkin_make
+```
+###USB_CAM OR UVC_CAMERA###
+
+In order to obtain real time position tracking, you will need to allow for a way for the package to interface with the webcam you are using. To do this, you can install either the [usb_cam](http://wiki.ros.org/usb_cam) or [uvc_camera]( http://wiki.ros.org/uvc_camera) packages. This can be done by typing in the following commands:
+
+```
+sudo apt-get install ros-indigo-usb-cam
+
+OR
+
+sudo apt-get install ros-indigo-uvc-camera
+```
+Check whether they installed properly with:
+```
+dpkg -l | grep usb_cam
+
+dpkg -l | grep uvc_camera
 ```
 
-and run
+##Configure Camera##
+
+Because we are using our camera for precision position detection, we need to ensure that the camera is appropriately calibrated. You can follow the appropriate steps to calibrate your camera using the following [link](http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration)
+
+In our case, it was a bit difficult to connect to our camera at times. Also, it is important to note tha the camera you are using may change names when you plug/unplug it or restart your computer. The following steps will help you find out what the name of your device is and testing it from the command lines.
+
+In order to find out what devices are plugged into your computer, type in:
+```
+lsusb
+dmesg | tailh
+```
+
+Next, (if you don't already have it), install gnome-media. From gnome-media, Gstreamer will allow you to view which video and audio devices are connected, and test each of them. Note: this is really handy when you cannot tell when you cannot tell which device is your built-in camera and which is externally plugged in.
 ```
 sudo apt-get install gnome-media
-gstreamer-properties
+gstreamer-properties
 ```
-select video tab
-select webcam device "test"
-select video4linux (1) not (2) & "test"
+  1. Select video tab
+  2. Select webcam device "test"
+  3. Select video4linux (1) not (2) & "test"
 
-this got our webcam to publish images as the default camera.
-Remove the webcam and check see to your computers default webcam with 
+From this, we were also able to set our webcam as the default, and were able to test that with Cheese. You can confirm that the name by removing the webcam and checking the devices again with:
 ```
 cd /dev
 ls
 ```
-
-search for video and take note of the number after it. It will most likely be 0 or 1. Plug in your webcam and run 
+If you search for "video" in that list, take note of the number after it; it will most likely be 0 or 1. Plug in your webcam and then type:
 ```
 ls
 ```
+There will be another video term with a number after it- that is your webcam’s ID.
 
-there will be another video term with a number after it. That is your webcam’s ID.
-install the [usb_cam ROS package] (http://wiki.ros.org/usb_cam) with
-```
-sudo apt-get install ros-indigo-usb-cam
-```
-Check it installed properly with
-```
-dpkg -l | grep usb_cam
-```
-launch ROS with
+##Test Camera and USB_CAM Package##
+
+Launch ROS by typing the following into the commandline:
 ```
 roscore 
 ```
-In a new terminal run the node with: 
+In a new terminal run the usb_cam_node with: 
 ```
 rosrun usb_cam usb_cam_node _video_device:=/dev/video#
 ```
-# is the number you found out that is associated with your webcam
+*Note: # is the number you found out that is associated with your webcam
 
-Then, in a new terminal type: 
+Then, in a new terminal type to view the image:
 ```
 rosrun image_view image_view image:=usb_cam/image_raw
 ```
-A window should pop up now displaying images from your webcam.
-To check what topics you are publishing 
-
+A window should pop up now displaying real-time video from your webcam.
+To check what topics are being published type "rostopic list" into the terminal:
 ```
 rostopic list
 ````
-which should give you 
+The result should be:
 ```
 /rosout
 /rosout_agg
@@ -111,61 +137,175 @@ which should give you
 /usb_cam/image_raw/theora/parameter_descriptions
 /usb_cam/image_raw/theora/parameter_updates
 ```
+##Testing the Software##
 
-##NEEDED DATA##
+Within the RPG Monocular Pose Estimator package, there is a demo launch file. This launch file has been developed to open and play a video that was pre-recorded as a bagfile, rather than having a live video feed. Follow the steps below to test your package with the demo file! 
 
-###DOWNLOAD TEST BAG FILE###
+*Note: the steps on testing the software are taken directly from the [RPG Monocular Pose Estimator Github page](https://github.com/uzh-rpg/rpg_monocular_pose_estimator)
 
-###CREATING DIRECTORY###
+###Create Directory to Save Rosbag File###
+```
+  roscd monocular_pose_estimator
+  mkdir bags
+  cd bags
+````
+###Download Test Rosbag File###
+```
+  wget http://rpg.ifi.uzh.ch/data/monocular-pose-estimator-data.tar.gz
+  tar -zxvf monocular-pose-estimator-data.tar.gz
+  rm monocular-pose-estimator-data.tar.gz
+````
+###Launch the Rosbag File###
+```
+  roslaunch monocular_pose_estimator demo.launch
+````
+###Examine the Result###
 
-##HARDWARE##
+By launching the demo launch file, we can get a lot of information just through visual inspection. First, we see that the LEDs are circled in red and successfully being tracked as the object is moving. The region of interest has a blue square around it and a coodrdinate frame is attached to the object's origin.
 
-###BUILD HARDWARE###
+We can find a little more out by running a few different commands.
 
-###SETTING UP MARKER_POSITIONS FILE###
+First, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
+```
+  ADD OUTPUT OF ROSTOPIC LIST
+````
+Next, we find out which nodes are active using the rosnode list command in a new terminal:
+```
+  ADD OUTPUT OF ROSNODE LIST
+````
+We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below, as well as a screenshot of the GUI:
+
+```
+  rosrun rqt_image_view rqt_image_view
+````
+##Hardware##
+
+In order to test out the system, we wanted to build hardware that was easy to develop and quick, so more time could be spent on getting the package to function. Thus, we used a breadboard and placed the LEDs on different levels. From the paper, some important things to note when setting up your rig are:
+  1. Do _not_ put the LEDs all in the same plane
+  2. Do _not_ put the LEDs in a way that is symmetric about your object
+  3. The LEDs should be visible from various viewing angles (this is where the breadboard idea is not the most ideal solution)
+  4. As mentioned earlier, should have a minimum of 4 LEDs
+  5. The LEDs should be bright in the image relative to the background so they can be easily extracted from the rest of the image- this will lead to a more accurate estimate of the position
+
+##Software##
+###Setting up Marker Positions YAML File###
 
 Figuring out how to correctly input the XYZ values of each LED into the marker_positions file was the difficult part.
 
 -Through some experimentation and reverse engineering of the image in the publication, we found that, though they had only 4 LED positions in the marker_positions file, there were actually 5 LEDs on the object.
--From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured. This was the lowest LED on the object's frame of reference.
--Another important detail to note is that all of the LED position values should be given in meters
+-From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured; this was the lowest (in the z-direction) LED on the object's frame of reference.
+-Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED
 
-##EDIT LAUNCH FILE##
+The position values for our LEDs can be seen in the table below:
 
+| LED Number    |      x        |     y       |      z      |
+| ------------- |:-------------:|:-----------:|:-----------:|
+|       1       |     0.053     |    0.08     |    0.014    |
+|       2       |     0.082     |    0.046    |    0.014    |
+|       3       |     0.098     |    0.022    |    0.014    |
+|       4       |     0.147     |    0.048    |    0.014    |
 
+###Edit Launch File###
 
-###REMAPPING NODES###
+We ran into issues running the actual software (details to be discussed in the "Obstacles Encountered" section). However, because of the issues we ran into, we decided to make two different Launch files. The general launch file on the Github for this project is below. Also, note that you will have to replace the name of the YAML file that is being called by the launch file with the name of your new YAML file that was created above.
 
-#RUNNING THE PACKAGE#
+```
+ <launch> 
 
-##RQT_RECONFIGURE##
+    <!-- Name of the YAML file containing the marker positions -->
+    <arg name="YAML_file_name" default="marker_positions"/>
 
-###Dynamic Reconfigure###
+    <!-- File containing the the marker positions in the trackable's frame of reference -->
+    <arg name="marker_positions_file" default="$(find monocular_pose_estimator)/marker_positions/$(arg YAML_file_name).yaml"/> 
 
-When reconfiguring monocular_pose_estimator:
+    <node name="monocular_pose_estimator" pkg="monocular_pose_estimator" type="monocular_pose_estimator" respawn="false" output="screen"> 
+        <rosparam command="load" file="$(arg marker_positions_file)"/>
+        <param name= "threshold_value" value = "140" />
+        <param name= "gaussian_sigma" value = "0.6" />
+        <param name= "min_blob_area" value = "10" />
+        <param name= "max_blob_area" value = "200" />
+        <param name= "max_width_height_distortion" value = "0.5" />
+        <param name= "max_circular_distortion" value = "0.5" />
+    </node>
+</launch> 
+````
+The first option was to have a launch file that did what was intended by the project- to make it work with a real time video stream. In order to do this, we had to add in a block of code that would launch the usb_cam_node. This block of code is seen below- be sure to tune the parameters (particularly size of the image and image type):
 
--Threshold: Needs to be within the range of 80-180 (From paper and experimentation)
--Gaussian sigma: We want the range within which it will not false-detect LEDs where they are not. This value needs to be at or below 1.7
+```
+  ADD ADDITION FOR USB CAM HERE
+```
+
+The next option is to be able to play a rosbag file that you prerecorded. This a more simple change since the demo.launch file is already written to play a Rosbag file on loop, so you only have to change the name of the Rosbag file that is called. The tricky part was getting the Rosbag file to be an appropriate one to be ran with this package, but details about this will be discussed in the "Obstacles Encountered" section.
+
+##RUNNING THE PACKAGE##
+
+After deciding which method you would like to run it (real-time video or pre-recorded video in rosbag file), you need to launch the appropriate launch file for the package.
+
+###RQT_RECONFIGURE###
+
+We have the ability to fine-tune the paramters by using rqt_reconfigure with the command below.
+```
+  rosrun rqt_reconfigure rqt_reconfigure
+```
+####Dynamic Reconfigure####
+
+When reconfiguring monocular_pose_estimator, we were able to confirm the limits and ranges that we saw on the Github page for the package- for the most part, the values were identical or very close.
+
+-Threshold: Needs to be within the range of 80-180
+
+-Gaussian sigma: This value needs to be at or below 1.7. We want the range within which it will not false-detect LEDs where they are not
+
 -Minimum blob area: 39 seems to be the upper limit (on a scale to 0-100)
--Maximum blob area: 55 is lower limit (on a scale of 0-1000)
--Max width height distortion: 0.5 is lower limit (on scale of 0-1.0)
--Max circular distortion: 0.5 is lower limit (on scale of 0-1.0)
--Back projection pixel tolerance: 5.0 is lower limit (on scale of 0-10)
--Nearest neighbour pixel tolerance: 7.0, but other values seem to work- not noticeable difference to us (scale of 0-10)
--Certainty threshold: 0.5 is lower limit (on scale of 0-1)
--Valid correspondance: not a noticeable difference, so go with default of 0.7
--Roi border thickness: 10 on scale of 0-200
 
-#CONCLUSIONS#
+-Maximum blob area: 55 is lower limit (on a scale of 0-1000)
+
+-Max width height distortion: 0.5 is lower limit (on scale of 0-1.0)
+
+-Max circular distortion: 0.5 is lower limit (on scale of 0-1.0)
+
+-Back projection pixel tolerance: 5.0 is lower limit (on scale of 0-10)
+
+-Nearest neighbour pixel tolerance: 7.0, but other values seem to work- not noticeable difference to us (scale of 0-10)
+
+-Certainty threshold: 0.5 is lower limit (on scale of 0-1)
+
+-Valid correspondance: not a noticeable difference, so go with default of 0.7
+
+-Roi border thickness: 10 on scale of 0-200
 
 ##RELIABILITY AND SENSITIVITY TO PARAMETERS##
 
-##OBSTACLES ENCOUNTERED##
+##Extension##
 
-##UTILITY##
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled)
 
+##Obstacles Encountered##
 
-#REFERENCES#
+Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file to rule out whether the errors we were getting were due to our use of the external camera and usb_cam package, or something else. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and used to the rosbag info command to find out more details about the file.
+```
+  rosbag info demo_test.bag
+```
+Afterward, we found out that the bag was subscribed to /camera/camera_info and /camera/image_raw. This is important to note because we now knew what data the package was expecting receive from the rosbag file (and subsequently the correct topics we needed to subscribe to while recording our own rosbag file). Our inital thought was to rosrun the usb_cam package and node but we realized that, had we recorded it from there, the names of the topics of the rosbag would have been /usb_cam/camera_info and /usb_cam/image_raw, which is not what the monocular_pose_estimator node is expecting. Thus, in the interest of not having to modify the launch file to remap the name of the node from /camera to /usb_cam, we ended up simply starting up our launch file that works with real-time video and recording with that.
+
+ In a new terminal, type:
+```
+  rosbag record /camera/image_raw /camera/camera_info
+  
+  ctrl+c to stop the recording after about 25-30 seconds (though you could do shorter or longer)
+```
+We immediately noticed that our images kept freezing, and that this was not allowing us to see the detection. Our short-term fix was to look at the feed using rqt_image_view, but long term, we learned that there was actually a bug in the old version of image_view; this bug had been fixed recently, but was not yet on the ROS wiki, so you have to obtain the fix from Github.
+
+However, after this, we noticed that we were finally getting some detections on our image, albeit incorrectly detected. Because of this, we adjusted the parameters dynamically using rqt_reconfigure and the detection did improve. We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was color vs. monochrome may actually be impacting that rate. We were not able to test this in the allotted time, but are continuing to work on this as a future problem. In the meantime, we are satisfied with our slower image rates.
+
+##Utility##
+
+This package can be _extremely_ useful if the smaller run issues are hammered out (we hope to have the monochrome issue tested and fixed soon). As the paper states, this is a very robust and accurate way to detect changes in position. The extension that we described above would show an example of how you can use the position of one object to control another.
+
+##Conclusions##
+
+###Next Steps###
+
+We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software) affect the image with detections output. For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
+
+##REFERENCES##
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
-
-#USEFUL LINKS#
