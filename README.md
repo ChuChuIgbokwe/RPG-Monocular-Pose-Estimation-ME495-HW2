@@ -197,9 +197,6 @@ Then, we can find out what topics are being published by looking at rostopic lis
 /monocular_pose_estimator/monocular_pose_estimator/parameter_updates
 /rosout
 /rosout_agg
-/turtle1/cmd_vel
-/turtle1/color_sensor
-/turtle1/pose
 
 ````
 Next, we find out which nodes are active using the rosnode list command in a new terminal:
@@ -207,10 +204,7 @@ Next, we find out which nodes are active using the rosnode list command in a new
 /camera
 /monocular_pose_estimator/monocular_pose_estimator
 /monocular_pose_estimator/view_visualisation_image
-/posetoturtle
 /rosout
-/turtlesim
-
 ````
 We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below:
 
