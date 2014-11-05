@@ -12,7 +12,6 @@ Group: Chukwunyere Igbokwe and Sabeen Admani
  - Fine-tune parameters of the tracking algorithm
 * Build a ROS package to run the demo
 
-
 ##PRELIMINARY STEPS##
 
 Note: We are under the assumption that you have ROS set up and running on your system. The ROS version we are using is indigo.
@@ -42,11 +41,18 @@ M. Faessler, E. Mueggler, K. Schwabe, D. Scaramuzza: **A Monocular Pose Estimati
 ROS Indigo is the version of ROS that we are using. You can follow the instructions to instal ROS with the following link, and then set up a Catkin Workspace using these [instructions](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)
 
 2. [OpenCV](http://opencv.org/) and [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) are necessary for the package to run, so you need to run those as well
+   -OpenCV is used by the package for image processing on the incoming image data stream
+   -Eigen is used for linear algebra calculations for the IR LED locating algorithm
 
+###RPG Monocular Pose Estimation Package Installation###
 
-
-
-###RPG_MONOCULAR_POSE_ESTIMATOR###
+You can clone the package using the commands below:
+```
+cd catkin_workspace/src
+git clone https://github.com/uzh-rpg/rpg_monocular_pose_estimator.git
+cd ../
+catkin_make
+```
 
 You can follow the steps on the developer's Github page to appropriate download the needed package and packages associated with it- follow steps 
 
