@@ -178,7 +178,6 @@ We can also look at rqt_image_view, which would bring up a GUI from which you ca
 ```
   rosrun rqt_image_view rqt_image_view
 ````
-
 ##Hardware##
 
 In order to test out the system, we wanted to build hardware that was easy to develop and quick, so more time could be spent on getting the package to function. Thus, we used a breadboard and placed the LEDs on different levels. From the paper, some important things to note when setting up your rig are:
@@ -197,7 +196,16 @@ Figuring out how to correctly input the XYZ values of each LED into the marker_p
 -From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured; this was the lowest (in the z-direction) LED on the object's frame of reference.
 -Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED
 
-###EDIT LAUNCH FILE###
+The position values for our LEDs can be seen in the table below:
+
+| LED Number    |      x        |     y       |      z      |
+| ------------- |:-------------:|:-----------:|:-----------:|
+|       1       |     0.053     |    0.08     |    0.014    |
+|       2       |     0.082     |    0.046    |    0.014    |
+|       3       |     0.098     |    0.022    |    0.014    |
+|       4       |     0.147     |    0.048    |    0.014    |
+
+###Edit Launch File###
 
 We ran into issues running the actual software (details to be discussed in the "Obstacles Encountered" section). However, because of the issues we ran into, we decided to make two different Launch files. The general launch file on the Github for this project is below. Also, note that you will have to replace the name of the YAML file that is being called by the launch file with the name of your new YAML file that was created above.
 
