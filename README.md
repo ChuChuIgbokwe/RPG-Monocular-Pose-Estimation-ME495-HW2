@@ -176,7 +176,7 @@ Next, we find out which nodes are active using the rosnode list command in a new
 We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below, as well as a screenshot of the GUI:
 
 ```
-  ADD COMMAND- I CAN'T QUITE REMEMBER IT
+  rosrun rqt_image_view rqt_image_view
 ````
 
 ##Hardware##
@@ -243,9 +243,9 @@ We have the ability to fine-tune the paramters by using rqt_reconfigure with the
 
 When reconfiguring monocular_pose_estimator, we were able to confirm the limits and ranges that we saw on the Github page for the package- for the most part, the values were identical or very close.
 
--Threshold: Needs to be within the range of 80-180 (From paper and experimentation)
+-Threshold: Needs to be within the range of 80-180
 
--Gaussian sigma: We want the range within which it will not false-detect LEDs where they are not. This value needs to be at or below 1.7
+-Gaussian sigma: This value needs to be at or below 1.7. We want the range within which it will not false-detect LEDs where they are not
 
 -Minimum blob area: 39 seems to be the upper limit (on a scale to 0-100)
 
@@ -269,11 +269,11 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 ##Extension##
 
-We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- itw as incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes.
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled)
 
 ##Obstacles Encountered##
 
-Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and used to the rosbag info command to find out more details about the file.
+Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file to rule out whether the errors we were getting were due to our use of the external camera and usb_cam package, or something else. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and used to the rosbag info command to find out more details about the file.
 ```
   rosbag info demo_test.bag
 ```
@@ -283,17 +283,21 @@ Afterward, we found out that the bag was subscribed to /camera/camera_info and /
 ```
   rosbag record /camera/image_raw /camera/camera_info
   
-  ctrl+c to stop the recording
+  ctrl+c to stop the recording after about 25-30 seconds (though you could do shorter or longer)
 ```
-However, after this, we noticed that we were finally getting some detections on our image, albeit in correct.
+We immediately noticed that our images kept freezing, and that this was not allowing us to see the detection. Our short-term fix was to look at the feed using rqt_image_view, but long term, we learned that there was actually a bug in the old version of image_view; this bug had been fixed recently, but was not yet on the ROS wiki, so you have to obtain the fix from Github.
+
+However, after this, we noticed that we were finally getting some detections on our image, albeit incorrectly detected. Because of this, we adjusted the parameters dynamically using rqt_reconfigure and the detection did improve. We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was color vs. monochrome may actually be impacting that rate. We were not able to test this in the allotted time, but are continuing to work on this as a future problem. In the meantime, we are satisfied with our slower image rates.
 
 ##Utility##
 
+This package can be _extremely_ useful if the smaller run issues are hammered out (we hope to have the monochrome issue tested and fixed soon). As the paper states, this is a very robust and accurate way to detect changes in position. The extension that we described above would show an example of how you can use the position of one object to control another.
+
 ##Conclusions##
 
-##Next Steps##
+###Next Steps###
 
-We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software). For example, we want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
+We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software). For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
 
 ##REFERENCES##
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
