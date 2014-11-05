@@ -170,18 +170,18 @@ By launching the demo launch file, we can get a lot of information just through 
 
 We can find a little more out by running a few different commands.
 
-First, we can find out what topics are being published by looking at rostopic list in the terminl- this would give us a result of:
+First, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
 ```
-  BLAHHHH
+  ADD OUTPUT OF ROSTOPIC LIST
 ````
 Next, we find out which nodes are active using the rosnode list command in a new terminal:
 ```
-  BLAHHHH
+  ADD OUTPUT OF ROSNODE LIST
 ````
 We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below, as well as a screenshot of the GUI:
 
 ```
-  BLAHHHH
+  ADD COMMAND- I CAN'T QUITE REMEMBER IT
 ````
 
 ##Hardware##
@@ -202,9 +202,9 @@ Figuring out how to correctly input the XYZ values of each LED into the marker_p
 -From this, we realized that one of the LEDs was actually the reference point from which the other LEDs were measured; this was the lowest (in the z-direction) LED on the object's frame of reference.
 -Another important detail to note is that all of the LED position values should be given in meters relative to the aforementioned lowest LED
 
-##EDIT LAUNCH FILE##
+###EDIT LAUNCH FILE###
 
-We ran into issues running the actual software (details to be discussed in the "Obstacles Encountered" section). However, because of the issues we ran into, we decided to make two different Launch files. The general launch file on the Github for this project is below.
+We ran into issues running the actual software (details to be discussed in the "Obstacles Encountered" section). However, because of the issues we ran into, we decided to make two different Launch files. The general launch file on the Github for this project is below. Also, note that you will have to replace the name of the YAML file that is being called by the launch file with the name of your new YAML file that was created above.
 
 ```
  <launch> 
@@ -226,10 +226,13 @@ We ran into issues running the actual software (details to be discussed in the "
     </node>
 </launch> 
 ````
-The first option was to have a launch file that did what was intended by the project- to make it work with a real time video stream. In order to do this, we had to add in a block of code that would launch the usb_cam_node. This block of code is seen below- be sure to tune the parameters (particularly size of the image and image type)
+The first option was to have a launch file that did what was intended by the project- to make it work with a real time video stream. In order to do this, we had to add in a block of code that would launch the usb_cam_node. This block of code is seen below- be sure to tune the parameters (particularly size of the image and image type):
 
+```
+  ADD ADDITION FOR USB CAM HERE
+````
 
-###REMAPPING NODES###
+The next option is to be able to play a rosbag file that you prerecorded. This a more simple change since the demo.launch file is already written to play a Rosbag file on loop, so you only have to change the name of the Rosbag file that is called. The tricky part was getting the Rosbag file to be an appropriate one to be ran with this package, but details about this will be discussed in the "Obstacles Encountered" section.
 
 #RUNNING THE PACKAGE#
 
