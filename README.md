@@ -113,7 +113,7 @@ In a new terminal run the usb_cam_node with:
 ```
 rosrun usb_cam usb_cam_node _video_device:=/dev/video#
 ```
-# is the number you found out that is associated with your webcam
+*Note: # is the number you found out that is associated with your webcam
 
 Then, in a new terminal type to view the image:
 ```
@@ -142,7 +142,9 @@ The result should be:
 ```
 ##Testing the Software##
 
-Within the RPG Monocular Pose Estimator package, there is a demo launch file. This launch file has been developed to open and play a video that was pre-recorded as a bagfile, rather than having a live video feed. Follow the steps below to test your package with the demo file! *Note: the steps on testing the software are taken directly from the [RPG Monocular Pose Estimator Github page](https://github.com/uzh-rpg/rpg_monocular_pose_estimator)
+Within the RPG Monocular Pose Estimator package, there is a demo launch file. This launch file has been developed to open and play a video that was pre-recorded as a bagfile, rather than having a live video feed. Follow the steps below to test your package with the demo file! 
+
+*Note: the steps on testing the software are taken directly from the [RPG Monocular Pose Estimator Github page](https://github.com/uzh-rpg/rpg_monocular_pose_estimator)
 
 
 ###Create Directory to Save Rosbag File###
@@ -152,12 +154,36 @@ Within the RPG Monocular Pose Estimator package, there is a demo launch file. Th
   mkdir bags
   cd bags
 ````
-###Download test rosbag file###
+###Download Test Rosbag File###
 ```
   wget http://rpg.ifi.uzh.ch/data/monocular-pose-estimator-data.tar.gz
   tar -zxvf monocular-pose-estimator-data.tar.gz
   rm monocular-pose-estimator-data.tar.gz
 ````
+###Launch the Rosbag File###
+```
+  roslaunch monocular_pose_estimator demo.launch
+````
+###Examine the Result###
+
+By launching the demo launch file, we can get a lot of information just through visual inspection. First, we see that the LEDs are circled in red and successfully being tracked as the object is moving. The region of interest has a blue square around it and a coodrdinate frame is attached to the object's origin.
+
+We can find a little more out by running a few different commands.
+
+First, we can find out what topics are being published by looking at rostopic list in the terminl- this would give us a result of:
+```
+  BLAHHHH
+````
+Next, we find out which nodes are active using the rosnode list command in a new terminal:
+```
+  BLAHHHH
+````
+We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below, as well as a screenshot of the GUI:
+
+```
+  BLAHHHH
+````
+
 ##HARDWARE##
 
 ###BUILD HARDWARE###
