@@ -97,37 +97,34 @@ From this, we were also able to set our webcam as the default, and were able to 
 cd /dev
 ls
 ```
-
 If you search for "video" in that list, take note of the number after it; it will most likely be 0 or 1. Plug in your webcam and then type:
 ```
 ls
 ```
-
 There will be another video term with a number after it- that is your webcam’s ID.
-Install the [usb_cam ROS package] (http://wiki.ros.org/usb_cam) with
 
+##Test Camera and USB_CAM Package##
 ```
-launch ROS with
+Launch ROS by typing the following into the commandline:
 ```
 roscore 
 ```
-In a new terminal run the node with: 
+In a new terminal run the usb_cam_node with: 
 ```
 rosrun usb_cam usb_cam_node _video_device:=/dev/video#
 ```
 # is the number you found out that is associated with your webcam
 
-Then, in a new terminal type: 
+Then, in a new terminal type to view the image:
 ```
 rosrun image_view image_view image:=usb_cam/image_raw
 ```
-A window should pop up now displaying images from your webcam.
-To check what topics you are publishing 
-
+A window should pop up now displaying real-time video from your webcam.
+To check what topics are being published type "rostopic list" into the terminal:
 ```
 rostopic list
 ````
-which should give you 
+The result should be:
 ```
 /rosout
 /rosout_agg
@@ -143,7 +140,6 @@ which should give you
 /usb_cam/image_raw/theora/parameter_descriptions
 /usb_cam/image_raw/theora/parameter_updates
 ```
-
 ##NEEDED DATA##
 
 ###DOWNLOAD TEST BAG FILE###
