@@ -68,7 +68,7 @@ sudo apt-get install uvc-camera
 
 Because we are using our camera for precision position detection, we need to ensure that the camera is appropriately calibrated. You can follow the appropriate steps to calibrate your camera using the following [link](http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration)
 
-In our case, it was a bit difficult to connect to our camera at times. Also, it is important to note tha the camera you are using may change names when you plug/unplug it or restart your computer. The following steps will help you find out what the name of your device is and testing it from the command line.
+In our case, it was a bit difficult to connect to our camera at times. Also, it is important to note tha the camera you are using may change names when you plug/unplug it or restart your computer. The following steps will help you find out what the name of your device is and testing it from the command lines.
 
 In order to find out what devices are plugged into your computer, type in:
 
@@ -77,17 +77,16 @@ lsusb
 dmesg | tailh
 ```
 
-and run
+Next, (if you don't already have it), install gnome-media. From gnome-media, Gstreamer will allow you to view which video and audio devices are connected, and test each of them. Note: this is really handy when you cannot tell when you cannot tell which device is your built-in camera and which is externally plugged in.
 ```
 sudo apt-get install gnome-media
-gstreamer-properties
+gstreamer-properties
 ```
-select video tab
-select webcam device "test"
-select video4linux (1) not (2) & "test"
+  1. Select video tab
+  2. Select webcam device "test"
+  3. Select video4linux (1) not (2) & "test"
 
-this got our webcam to publish images as the default camera.
-Remove the webcam and check see to your computers default webcam with 
+From this, we were also able to set our webcam as the default, and were able to test that with Cheese. You can confirm that the name by removing the webcam and checking the devices again with:
 ```
 cd /dev
 ls
