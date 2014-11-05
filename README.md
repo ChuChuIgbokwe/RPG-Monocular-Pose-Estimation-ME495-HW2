@@ -229,17 +229,17 @@ The first option was to have a launch file that did what was intended by the pro
 
 The next option is to be able to play a rosbag file that you prerecorded. This a more simple change since the demo.launch file is already written to play a Rosbag file on loop, so you only have to change the name of the Rosbag file that is called. The tricky part was getting the Rosbag file to be an appropriate one to be ran with this package, but details about this will be discussed in the "Obstacles Encountered" section.
 
-#RUNNING THE PACKAGE#
+##RUNNING THE PACKAGE##
 
 After deciding which method you would like to run it (real-time video or pre-recorded video in rosbag file), you need to launch the appropriate launch file for the package.
 
-##RQT_RECONFIGURE##
+###RQT_RECONFIGURE###
 
 We have the ability to fine-tune the paramters by using rqt_reconfigure with the command below.
 ```
   rosrun rqt_reconfigure rqt_reconfigure
 ```
-###Dynamic Reconfigure###
+####Dynamic Reconfigure####
 
 When reconfiguring monocular_pose_estimator, we were able to confirm the limits and ranges that we saw on the Github page for the package- for the most part, the values were identical or very close.
 
@@ -265,23 +265,23 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 -Roi border thickness: 10 on scale of 0-200
 
-#Extension#
+##RELIABILITY AND SENSITIVITY TO PARAMETERS##
+
+##Extension##
 
 We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- itw as incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes.
 
-#RELIABILITY AND SENSITIVITY TO PARAMETERS#
+##Obstacled Encountered##
 
-#OBSTACLES ENCOUNTERED#
+Unfortunately, we ran into a few different speedbumps while trying to run the package with anything other than the demo rosbag file. For that reason, we thought it would be a good idea to create our own rosbag file. In order to find out what topics the rosbag file was subscribed to, we went to the bags directory and then found out that the bag was subscribed to /camera/camera_info and /camera/ 
 
-#UTILITY#
+##Utility##
 
-#CONCLUSIONS#
+##Conclusions##
 
-#Next Steps#
+##Next Steps##
 
 We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software). For example, we want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
 
-#REFERENCES#
+##REFERENCES##
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
-
-#USEFUL LINKS#
