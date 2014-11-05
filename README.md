@@ -318,7 +318,7 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 ##Extension##
 
-We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled).
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet.We did this by creating a python node in ROS called _posetoturtle_ which subscribes to /monocular_pose_estimator/estimated_pose and publishes the x and y positions to /turtle1/cmd_vel. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled).
 
 ##Obstacles Encountered##
 
@@ -356,5 +356,5 @@ This package can be _extremely_ useful if the smaller run issues are hammered ou
 
 We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software) affect the image with detections output. For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
 
-##REFERENCES##
+##References##
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
