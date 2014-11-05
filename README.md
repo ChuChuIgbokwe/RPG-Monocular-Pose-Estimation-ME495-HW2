@@ -2,6 +2,8 @@ RPG-Monocular-Pose-Estimation-ME495-HW2
 =======================================
 
 RPG Monocular Pose Estimation. ME495 HW2
+Group: Chukwunyere Igbokwe and Sabeen Admani
+
 ##OBJECTIVES#
 * Use the ROS [camera calibration] (http://wiki.ros.org/camera_calibration) package to calibrate the webcam you are given
 * Follow the documentation for the package to try and get the package running
@@ -27,7 +29,7 @@ You will need:
 *Note: the specific materials that we used are in parentheses below
 1. At minimum 5 IR LEDs
 2. Electronic prototyping materials
-3. An IR filter that has a frequency below the frequency of the LEDs that you chose (We used a Digital HD Filter
+3. An IR filter that has a frequency below the frequency of the LEDs that you chose ([IR 760 HD IR FILTER](http://www.amazon.com/NEEWER%C2%AE-760nm-Infrared-Infra-Filter/dp/B003TY10AS/ref=sr_1_1?s=electronics&ie=UTF8&qid=1415146287&sr=1-1&keywords=neewer+10000314)
 4. A webcam
 
 ##NEEDED PACKAGES##
