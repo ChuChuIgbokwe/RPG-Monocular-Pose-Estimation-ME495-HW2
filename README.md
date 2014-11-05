@@ -171,11 +171,46 @@ First, we can run rqt_graph in order to see an overall flow chart of the nodes a
 
 Then, we can find out what topics are being published by looking at rostopic list in the terminal- this would give us a result of:
 ```
-  ADD OUTPUT OF ROSTOPIC LIST
+/camera/camera_info
+/camera/image_raw
+/camera/image_raw/compressed
+/camera/image_raw/compressed/parameter_descriptions
+/camera/image_raw/compressed/parameter_updates
+/camera/image_raw/compressedDepth
+/camera/image_raw/compressedDepth/parameter_descriptions
+/camera/image_raw/compressedDepth/parameter_updates
+/camera/image_raw/theora
+/camera/image_raw/theora/parameter_descriptions
+/camera/image_raw/theora/parameter_updates
+/monocular_pose_estimator/estimated_pose
+/monocular_pose_estimator/image_with_detections
+/monocular_pose_estimator/image_with_detections/compressed
+/monocular_pose_estimator/image_with_detections/compressed/parameter_descriptions
+/monocular_pose_estimator/image_with_detections/compressed/parameter_updates
+/monocular_pose_estimator/image_with_detections/compressedDepth
+/monocular_pose_estimator/image_with_detections/compressedDepth/parameter_descriptions
+/monocular_pose_estimator/image_with_detections/compressedDepth/parameter_updates
+/monocular_pose_estimator/image_with_detections/theora
+/monocular_pose_estimator/image_with_detections/theora/parameter_descriptions
+/monocular_pose_estimator/image_with_detections/theora/parameter_updates
+/monocular_pose_estimator/monocular_pose_estimator/parameter_descriptions
+/monocular_pose_estimator/monocular_pose_estimator/parameter_updates
+/rosout
+/rosout_agg
+/turtle1/cmd_vel
+/turtle1/color_sensor
+/turtle1/pose
+
 ````
 Next, we find out which nodes are active using the rosnode list command in a new terminal:
 ```
-  ADD OUTPUT OF ROSNODE LIST
+/camera
+/monocular_pose_estimator/monocular_pose_estimator
+/monocular_pose_estimator/view_visualisation_image
+/posetoturtle
+/rosout
+/turtlesim
+
 ````
 We can also look at rqt_image_view, which would bring up a GUI from which you can select from different topics. More specifically, we can switch between the looking at the raw image and looking at the image with detections. The command you can use to bring this up is below:
 
