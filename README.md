@@ -13,7 +13,6 @@ Group: Chukwunyere Igbokwe and Sabeen Admani
 * Build a ROS package to run the demo
 
 ##PRELIMINARY STEPS##
-
 Note: We are under the assumption that you have ROS set up and running on your system. The ROS version we are using is indigo.
 
 1. Read the following publication by the developers of this package:
@@ -44,7 +43,7 @@ ROS Indigo is the version of ROS that we are using. You can follow the instructi
    -OpenCV is used by the package for image processing on the incoming image data stream
    -Eigen is used for linear algebra calculations for the IR LED locating algorithm
 
-###RPG Monocular Pose Estimation Package Installation###
+###RPG Monocular Pose Estimator Package Installation###
 
 You can clone the package using the commands below:
 ```
@@ -53,17 +52,28 @@ git clone https://github.com/uzh-rpg/rpg_monocular_pose_estimator.git
 cd ../
 catkin_make
 ```
+###USB_CAM OR UVC_CAMERA###
 
-You can follow the steps on the developer's Github page to appropriate download the needed package and packages associated with it- follow steps 
+In order to obtain real time position tracking, you will need to allow for a way for the package to interface with the webcam you are using. To do this, you can install either the [usb_cam](http://wiki.ros.org/usb_cam) or [uvc_camera]( http://wiki.ros.org/uvc_camera) packages. This can be done by typing in the following commands:
 
-###USB_CAM OR UVC_CAM###
+```
+sudo apt-get install usb-cam
 
-##CONFIGURE CAMERA##
+OR
 
-We decided to use the Microsoft LifeCam Studio webcam and we had issuses getting it to capture images
+sudo apt-get install uvc-camera
+```
+
+##Configure Camera##
+
+Because we are using our camera for precision position detection, we need to ensure that the camera is appropriately calibrated. You can follow the appropriate steps to calibrate your camera using the following [link](http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration)
+
+In our case, it was a bit difficult to connect to our camera at times. Also, it is important to note tha the camera you are using may change names when you plug/unplug it or restart your computer. The following steps will help you find out what the name of your device is and testing it from the command line.
+
+In order to find out what devices are plugged into your computer, type in:
 
 ```lsusb
-dmesg | tail
+dmesg | tailh
 ```
 
 and run
