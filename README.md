@@ -354,7 +354,7 @@ We noticed when we checked on the frequency with which the /monocular_pose_estim
 
 *This photo is a screenshot of the rate at which our /monocular_pose_estimator/image_with_detections node was publishing
 
-After looking into it further, we noticed that the package is indeed optimized for monochrome/grayscale images. There were two options that we explored to make the camera/image_raw data go from RGB to grayscale images.
+After looking into it further, we noticed that the package is indeed optimized for monochrome/grayscale images. There were three options that we learned could make the camera/image_raw data go from RGB to grayscale images:
 
 1. USB_CAM
 
@@ -374,8 +374,19 @@ rosrun image_view image_view image:=my_camera/image_mono
 
 In our particular case, this node would sit between the usb_cam node and the monocular_pose_estimator node. We would be putting this in the namespace of the camera, so that all of the data is being published as /camera/_____ topics.
 
-Though this resulted in a very high quality monochrome image, we were still unable to get the turtle working faster than 8 Hz (which is a significant improvement over the 1-2 Hz we were getting previously.
+Though this resulted in a very high quality monochrome image, we were still unable to get the turtle working faster than 8 Hz (which is a significant improvement over the 1-2 Hz we were getting previously. It is important to also note that a lot of messages are still not being published so this change did not drastically improve anything, but rather increases the peak publishing rate. Also, while using grayscale, we noticed that, every time we put our IR filter over the camera, the image would freeze and the node would stop sending data; we're not sure why this is happening, but its use does become a little counter-productive. We also noticed that the node performs best in low light conditions, thought this isn't necessary.
 
+![alt text](https://github.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/blob/master/images/lifecam_mono.png)
+
+The image above is for grayscale with low light conditions and the image below is grayscalee with the IR filter.
+
+![alt text](https://github.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/blob/master/images/detections_mono_with_box.png)
+
+3. [open_cv node](http://opencv.org/documentation.html):
+
+Alternatively, we could write an OpenCV node that would get the grayscale image, but we believe that the built in image_proc package would most likely do a better job. Nonetheless, we would like to explore this option in more details.
+
+Lastly, we noticed that the laptoop's built in webcam performs better than the Microsoft Lifecam Studio camera that we used.
 ##Utility##
 
 This package can be _extremely_ useful if the smaller run issues are hammered out (we hope to have the monochrome issue tested and fixed soon). As the paper states, this is a very robust and accurate way to detect changes in position. The extension that we described above would show an example of how you can use the position of one object to control another.
