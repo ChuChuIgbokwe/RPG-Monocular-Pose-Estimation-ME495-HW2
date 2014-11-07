@@ -367,10 +367,15 @@ This is a package that essentially is built to sit between the camera driver and
 ```
 ROS_NAMESPACE=my_camera rosrun image_proc image_proc
 ```
-Afteward, you can open a new terminal and use image_view to look at the new camera data
+Afteward, you can open a new terminal and use image_view to look at the new camera data.
 ```
-rosrun image_view image_view image:=my_camera/image_rect_color
+rosrun image_view image_view image:=my_camera/image_mono
 ```
+
+In our particular case, this node would sit between the usb_cam node and the monocular_pose_estimator node. We would be putting this in the namespace of the camera, so that all of the data is being published as /camera/_____ topics.
+
+Though this resulted in a very high quality monochrome image, we were still unable to get the turtle working faster than 8 Hz (which is a significant improvement over the 1-2 Hz we were getting previously.
+
 ##Utility##
 
 This package can be _extremely_ useful if the smaller run issues are hammered out (we hope to have the monochrome issue tested and fixed soon). As the paper states, this is a very robust and accurate way to detect changes in position. The extension that we described above would show an example of how you can use the position of one object to control another.
@@ -379,7 +384,7 @@ This package can be _extremely_ useful if the smaller run issues are hammered ou
 
 ###Next Steps###
 
-We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software) affect the image with detections output. For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not.
+We would ultimately like to take this project to one step beyond this and see how different variables in the system (external as well as factors relating to software) affect the image with detections output. For example, want to test the difference in the output images with detections and publish rate of the /monocular_pose_estimator/image_with_detections node as well as whether different filters and different LEDs would impact the output we are getting positively or not. We still believe that there is a reason for the bottleneck of information that is happening between the usb_cam and monocular_pose_estimator node and would like to spend more time on figuring out why that is.
 
 ##References##
 Matthias Faessler, Elias Mueggler, Karl Schwabe and Davide Scaramuzza, **A Monocular Pose Estimation System based on Infrared LEDs,** Proc. IEEE International Conference on Robotics and Automation (ICRA), 2014, Hong Kong. 
