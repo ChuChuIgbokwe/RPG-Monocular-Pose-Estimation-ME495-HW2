@@ -318,7 +318,15 @@ When reconfiguring monocular_pose_estimator, we were able to confirm the limits 
 
 ##Extension##
 
-We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet.We did this by creating a python node in ROS called _posetoturtle_ which subscribes to /monocular_pose_estimator/estimated_pose and publishes the x and y positions to /turtle1/cmd_vel. First of all, we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled).
+We were successfully able to get the TurtleSim to move by using input from the RPG Monocular Pose Estmator- it was incredibly exciting!!! However, we know that there is a lot of work to be done yet. 
+
+###How it works###
+
+First, we created a python node in ROS called _posetoturtle_ which subscribes to /monocular_pose_estimator/estimated_pose and publishes the x and y positions to /turtle1/cmd_vel. We learned by doing a rostopic echo on the latter topic that the pose data is outputted in the form of a [covariance vector](http://docs.ros.org/api/geometry_msgs/html/msg/PoseWithCovariance.html). Thus, we needed to extract the data that was outputted from that vector and place it into a twist vector that we then published to the /turtle1/cmd_vel node, since it is listening for data of the geometry messages, twist type. Important to note, however, is that we are not using the orientation data that is a component of the pose with covariance vector, just simply the position data. Though this is a good first step, we know that we need to do some appropriate calculations for the usage of the rotation about the x, y, and z axes to control the orientation of the turtle (or, in other applications, the direction of the object to-be-controlled).
+
+###To use###
+
+You can clone this repository and follow the instructions above for setting the hardware and software up. Within the repository, there is a launch file that can be used to start up our _posetoturtle_ node, as well as the monocular pose estimator and usb_cam nodes.
 
 ##Obstacles Encountered##
 
