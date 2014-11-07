@@ -9,7 +9,7 @@
 	<!--node pkg="uvc_cam" type="usb_camera_node" name="blah" args="_video_device:=/dev/video1" output="screen"-->
 
 	<node name="camera" pkg="usb_cam" type="usb_cam_node" output="screen" >
-	    <param name="video_device" value="/dev/video0" />
+	    <param name="video_device" value="/dev/video1" />
         <param name="image_width" value="320" />
     	<param name="image_height" value="240" />
 	    <param name="pixel_format" value="yuyv" />

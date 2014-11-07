@@ -27,5 +27,5 @@
 	</group>
 
 	<!-- rosbag play -->
-	<node pkg="rosbag" type="play" name="player" output="screen" args="-d 1 -l $(find monocular_pose_estimator)/bags/batman.bag"/>
+	<node pkg="rosbag" type="play" name="player" output="screen" args="-d 1 -l $(find monocular_pose_estimator)/bags/turtlemoves.bag"/>
 </launch>
