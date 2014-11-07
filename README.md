@@ -348,12 +348,29 @@ However, after this, we noticed that we were finally getting some detections on 
 
 ![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/successful_led_location_bag.png)
 
-We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was RGB color vs. monochrome may actually be impacting that rate. After looking into it further, we noticed that the package is indeed optimized for monochrome/grayscale images. We were not able to test this in the alloted time, but are continuing to work on this as a future problem. In the meantime, we will be getting slower processing rates.
+We noticed when we checked on the frequency with which the /monocular_pose_estimator/image_with_detections node was publishing compared to the /camera/image_raw node and found that the former was barely publishing at a rate of 2 Hz vs. 30 Hz of the latter. Running rostopic hz on those nodes with the demo rosbag file running, we see that the rate was around 30 Hz for both, indicating something was wrong from the video that we were recording. We tweaked a few different things (changed the image size, the shutter time, and the gain) and, though they improved the publishing rate of the slower node, they didn't help significantly. Our instructor brought up an important point that the fact that our camera feed was RGB color vs. monochrome may actually be impacting that rate. 
 
 ![alt text](https://raw.githubusercontent.com/raider64x/RPG-Monocular-Pose-Estimation-ME495-HW2/master/images/iamge_raw%20vs%20Image_with_detections.png)
 
 *This photo is a screenshot of the rate at which our /monocular_pose_estimator/image_with_detections node was publishing
 
+After looking into it further, we noticed that the package is indeed optimized for monochrome/grayscale images. There were two options that we explored to make the camera/image_raw data go from RGB to grayscale images.
+
+1. USB_CAM
+
+The usb_cam node has a parameter for setting pixel format, and one of the options is yuvmono10. We tried this option, but the raw images that resulted were of very low quality- the LEDs could not be distinguished, or even seen, in the raw image file.
+
+2. [image_proc](http://wiki.ros.org/image_proc)
+
+This is a package that essentially is built to sit between the camera driver and the image processing node. The first step in running the package is providing a NAMESPACE to make it a part of.
+
+```
+ROS_NAMESPACE=my_camera rosrun image_proc image_proc
+```
+Afteward, you can open a new terminal and use image_view to look at the new camera data
+```
+rosrun image_view image_view image:=my_camera/image_rect_color
+```
 ##Utility##
 
 This package can be _extremely_ useful if the smaller run issues are hammered out (we hope to have the monochrome issue tested and fixed soon). As the paper states, this is a very robust and accurate way to detect changes in position. The extension that we described above would show an example of how you can use the position of one object to control another.
